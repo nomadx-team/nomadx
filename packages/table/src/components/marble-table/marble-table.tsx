@@ -47,7 +47,8 @@ export class AwesomeTable {
       e.clipboardData.setData('text/html', '<table>' +  this.element.querySelector('table').innerHTML + '</table>');
       e.preventDefault();
     } else if (this.isRoving) {
-      e.clipboardData.setData('text/plain', `${this.source[this.focusedCell.row][this.focusedCell.col]}`);
+      const cellData = this.element.querySelector(`[data-row="${this.focusedCell.row}"][data-col="${this.focusedCell.col}"]`)
+      e.clipboardData.setData('text/plain', `${cellData.innerHTML}`);
       e.preventDefault()
     }
   }
