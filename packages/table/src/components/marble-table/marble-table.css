@@ -1,29 +1,29 @@
-awesome-table {
+marble-table {
   display: block;
   position: relative;
 }
 
-awesome-table div[slot="content"] {
+marble-table div[slot="content"] {
   display: none;
 }
 
-awesome-table table {
+marble-table table {
     box-sizing: border-box;
     border-collapse: collapse;
     border-spacing: 0;
     border-color: transparent;
     width: 100%;
 }
-awesome-table th {
+marble-table th {
   text-align: left;
 }
 
-awesome-table.is-striped tbody tr:nth-of-type(odd) {
+marble-table.is-striped tbody tr:nth-of-type(odd) {
   background-color: #f5f5f5;
 }
 
-awesome-table th,
-awesome-table td {
+marble-table th,
+marble-table td {
   font-family: inherit;
   font-feature-settings: 'tnum';
   -webkit-font-feature-settings: 'tnum';
@@ -31,31 +31,31 @@ awesome-table td {
   padding: 4px 2px;
 }
 
-awesome-table th.sortable {
+marble-table th.sortable {
   cursor: pointer;
 }
-awesome-table th.sortable svg {
+marble-table th.sortable svg {
   margin: auto;
 }
-awesome-table th.sortable svg path {
+marble-table th.sortable svg path {
   fill: rgba(0,0,0,0.28);
 }
-awesome-table th.sortable[aria-sort="ascending"] svg .arrow-top {
+marble-table th.sortable[aria-sort="ascending"] svg .arrow-top {
   fill: rgba(0, 0, 0, 1);
 }
-awesome-table th.sortable[aria-sort="descending"] svg .arrow-bottom {
+marble-table th.sortable[aria-sort="descending"] svg .arrow-bottom {
   fill: rgba(0, 0, 0, 1);
 }
 
-awesome-table th,
-awesome-table td {
+marble-table th,
+marble-table td {
   transition: box-shadow 100ms cubic-bezier(0.165, 0.84, 0.44, 1);
 
 }
 
 
 
-/* awesome-table th.sortable::after {
+/* marble-table th.sortable::after {
   content: "";
   position: absolute;
   background-color: black;
@@ -63,7 +63,7 @@ awesome-table td {
   height: 12px;
 }
 
-awesome-table th.sortable {
+marble-table th.sortable {
   content: "";
   position: absolute;
   background-color: black;

@@ -3,8 +3,8 @@ import { Sort } from './icons';
 import prettyprint from '../../utils/prettyprint';
 
 @Component({
-  tag: 'awesome-table',
-  styleUrl: 'awesome-table.css'
+  tag: 'marble-table',
+  styleUrl: 'marble-table.css'
 })
 export class AwesomeTable {
 
