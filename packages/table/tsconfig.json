@@ -6,7 +6,9 @@
     "experimentalDecorators": true,
     "lib": [
       "dom",
-      "es2015"
+      "es2015",
+      "es2017.object",
+      "es2018"
     ],
     "moduleResolution": "node",
     "module": "es2015",

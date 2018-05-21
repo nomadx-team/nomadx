@@ -23,39 +23,241 @@ declare global {
   interface HTMLAttributes {}
 }
 
+import {
+  TableData,
+} from './models';
+import {
+  TableData as TableData2,
+} from './models/index';
 
 declare global {
 
   namespace StencilComponents {
-    interface MyComponent {
-      'first': string;
-      'last': string;
+    interface AwesomeTable {
+      'data': any[][];
+      'labelledby': string;
+      'sortable': string;
+      'striped': any;
     }
   }
 
-  interface HTMLMyComponentElement extends StencilComponents.MyComponent, HTMLStencilElement {}
+  interface HTMLAwesomeTableElement extends StencilComponents.AwesomeTable, HTMLStencilElement {}
 
-  var HTMLMyComponentElement: {
-    prototype: HTMLMyComponentElement;
-    new (): HTMLMyComponentElement;
+  var HTMLAwesomeTableElement: {
+    prototype: HTMLAwesomeTableElement;
+    new (): HTMLAwesomeTableElement;
   };
   interface HTMLElementTagNameMap {
-    'my-component': HTMLMyComponentElement;
+    'awesome-table': HTMLAwesomeTableElement;
   }
   interface ElementTagNameMap {
-    'my-component': HTMLMyComponentElement;
+    'awesome-table': HTMLAwesomeTableElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'my-component': JSXElements.MyComponentAttributes;
+      'awesome-table': JSXElements.AwesomeTableAttributes;
     }
   }
   namespace JSXElements {
-    export interface MyComponentAttributes extends HTMLAttributes {
-      'first'?: string;
-      'last'?: string;
+    export interface AwesomeTableAttributes extends HTMLAttributes {
+      'data'?: any[][];
+      'labelledby'?: string;
+      'sortable'?: string;
+      'striped'?: any;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface MrblCell {
+      'column': number;
+      'content': any;
+      'header': any;
+      'red': any;
+      'row': number;
+    }
+  }
+
+  interface HTMLMrblCellElement extends StencilComponents.MrblCell, HTMLStencilElement {}
+
+  var HTMLMrblCellElement: {
+    prototype: HTMLMrblCellElement;
+    new (): HTMLMrblCellElement;
+  };
+  interface HTMLElementTagNameMap {
+    'mrbl-cell': HTMLMrblCellElement;
+  }
+  interface ElementTagNameMap {
+    'mrbl-cell': HTMLMrblCellElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'mrbl-cell': JSXElements.MrblCellAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MrblCellAttributes extends HTMLAttributes {
+      'column'?: number;
+      'content'?: any;
+      'header'?: any;
+      'onCellBlur'?: (event: CustomEvent) => void;
+      'onCellFocus'?: (event: CustomEvent) => void;
+      'onCellSelect'?: (event: CustomEvent) => void;
+      'red'?: any;
+      'row'?: number;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface MrblColumnSelect {
+      'data': TableData;
+      'index': number;
+    }
+  }
+
+  interface HTMLMrblColumnSelectElement extends StencilComponents.MrblColumnSelect, HTMLStencilElement {}
+
+  var HTMLMrblColumnSelectElement: {
+    prototype: HTMLMrblColumnSelectElement;
+    new (): HTMLMrblColumnSelectElement;
+  };
+  interface HTMLElementTagNameMap {
+    'mrbl-column-select': HTMLMrblColumnSelectElement;
+  }
+  interface ElementTagNameMap {
+    'mrbl-column-select': HTMLMrblColumnSelectElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'mrbl-column-select': JSXElements.MrblColumnSelectAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MrblColumnSelectAttributes extends HTMLAttributes {
+      'data'?: TableData;
+      'index'?: number;
+      'onOnRowSelect'?: (event: CustomEvent) => void;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface MrblColumn {
+      'bind': string;
+      'data': TableData;
+      'index': number;
+      'select': any;
+    }
+  }
+
+  interface HTMLMrblColumnElement extends StencilComponents.MrblColumn, HTMLStencilElement {}
+
+  var HTMLMrblColumnElement: {
+    prototype: HTMLMrblColumnElement;
+    new (): HTMLMrblColumnElement;
+  };
+  interface HTMLElementTagNameMap {
+    'mrbl-column': HTMLMrblColumnElement;
+  }
+  interface ElementTagNameMap {
+    'mrbl-column': HTMLMrblColumnElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'mrbl-column': JSXElements.MrblColumnAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MrblColumnAttributes extends HTMLAttributes {
+      'bind'?: string;
+      'data'?: TableData;
+      'index'?: number;
+      'onCellSelect'?: (event: CustomEvent) => void;
+      'select'?: any;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface MrblHeader {
+      'sortable': any;
+    }
+  }
+
+  interface HTMLMrblHeaderElement extends StencilComponents.MrblHeader, HTMLStencilElement {}
+
+  var HTMLMrblHeaderElement: {
+    prototype: HTMLMrblHeaderElement;
+    new (): HTMLMrblHeaderElement;
+  };
+  interface HTMLElementTagNameMap {
+    'mrbl-header': HTMLMrblHeaderElement;
+  }
+  interface ElementTagNameMap {
+    'mrbl-header': HTMLMrblHeaderElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'mrbl-header': JSXElements.MrblHeaderAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MrblHeaderAttributes extends HTMLAttributes {
+      'sortable'?: any;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface MrblTable {
+      'data': TableData;
+      'labelledby': string;
+      'striped': any;
+    }
+  }
+
+  interface HTMLMrblTableElement extends StencilComponents.MrblTable, HTMLStencilElement {}
+
+  var HTMLMrblTableElement: {
+    prototype: HTMLMrblTableElement;
+    new (): HTMLMrblTableElement;
+  };
+  interface HTMLElementTagNameMap {
+    'mrbl-table': HTMLMrblTableElement;
+  }
+  interface ElementTagNameMap {
+    'mrbl-table': HTMLMrblTableElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'mrbl-table': JSXElements.MrblTableAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MrblTableAttributes extends HTMLAttributes {
+      'data'?: TableData;
+      'labelledby'?: string;
+      'striped'?: any;
     }
   }
 }
 
 declare global { namespace JSX { interface StencilJSX {} } }
+
+export declare function defineCustomElements(window: any): void;

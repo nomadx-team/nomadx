@@ -1,0 +1,21 @@
+mrbl-cell {
+  display: block;
+  box-sizing: border-box;
+  color: var(--color, #000);
+  /* border: 1px solid rgba(0,0,0,0.12); */
+
+  padding: var(--mrbl-cell-padding, 2px);
+  grid-column: var(--column-index) / auto;
+
+  font-feature-settings: 'tnum';
+  -webkit-font-feature-settings: 'tnum';
+  -moz-font-feature-settings: 'tnum';
+}
+
+mrbl-cell.is-selected {
+  background-color: red;
+}
+
+mrbl-cell > p {
+  margin: 0;
+}

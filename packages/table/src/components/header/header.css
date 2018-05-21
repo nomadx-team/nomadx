@@ -1,0 +1,10 @@
+mrbl-header {
+  grid-row: 1 / auto;
+  grid-column: var(--column-index, 1);
+  display: flex;
+  padding: var(--mrbl-header-padding, var(--mrbl-cell-padding, 4px 2px));
+}
+mrbl-header > h3 {
+  margin: 0;
+  line-height: 1;
+}
