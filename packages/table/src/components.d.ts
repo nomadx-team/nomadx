@@ -23,6 +23,43 @@ declare global {
   interface HTMLAttributes {}
 }
 
+import {
+  ParsedData,
+} from './models/data';
+
+declare global {
+
+  namespace StencilComponents {
+    interface MarbleData {
+      'data': any;
+      'getData': () => ParsedData;
+    }
+  }
+
+  interface HTMLMarbleDataElement extends StencilComponents.MarbleData, HTMLStencilElement {}
+
+  var HTMLMarbleDataElement: {
+    prototype: HTMLMarbleDataElement;
+    new (): HTMLMarbleDataElement;
+  };
+  interface HTMLElementTagNameMap {
+    'marble-data': HTMLMarbleDataElement;
+  }
+  interface ElementTagNameMap {
+    'marble-data': HTMLMarbleDataElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'marble-data': JSXElements.MarbleDataAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MarbleDataAttributes extends HTMLAttributes {
+      'data'?: any;
+    }
+  }
+}
+
 
 declare global {
 

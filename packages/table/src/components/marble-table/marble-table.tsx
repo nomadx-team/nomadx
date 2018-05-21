@@ -6,7 +6,7 @@ import prettyprint from '../../utils/prettyprint';
   tag: 'marble-table',
   styleUrl: 'marble-table.css'
 })
-export class AwesomeTable {
+export class Table {
 
   @Element() element: HTMLElement;
   @Prop() data: any[][];
@@ -131,6 +131,17 @@ export class AwesomeTable {
     this.moveFocus({ row: this.firstRow, col: this.firstCol });
   }
 
+  @Listen('keydown.escape')
+  handleEscape() {
+    if (this.isFocused || this.isRoving) {
+      this.isFocused = false;
+      this.isRoving = false;
+      const next = this.element.querySelector(`[data-row="${this.firstRow}"][data-col="${this.firstCol}"]`) as HTMLElement;
+      next.focus();
+      next.blur();
+    }
+  }
+
   @Listen('keydown.enter')
   @Listen('keydown.space')
   handleSpace() {
@@ -155,6 +166,7 @@ export class AwesomeTable {
         }
         if (e.metaKey) {
           this.moveFocus({ row: row, col: this.firstCol })
+          e.preventDefault();
         } else {
           this.moveFocus({ row: row, col: col - 1 })
         }
