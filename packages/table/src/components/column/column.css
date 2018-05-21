@@ -1,8 +1,0 @@
-mrbl-column {
-  display: contents;
-  box-sizing: border-box;
-}
-
-mrbl-column [slot="template"] {
-  display: none;
-}
