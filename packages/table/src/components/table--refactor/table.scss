@@ -1,3 +1,40 @@
 nomadx-table {
   display: block;
+
+  table {
+    border-collapse: collapse;
+    font-family: inherit;
+
+    thead {
+      tr {
+        border-bottom: 2px solid rgba(0,0,0,0.12);
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+
+        &:hover {
+          background-color: rgba(0,0,0,0.06);
+        }
+      }
+    }
+
+
+    th {
+      font-weight: bold;
+      padding: 4px 16px;
+      margin: 0;
+      border: 0;
+      color: rgba(0,0,0,0.54);
+      text-align: center;
+    }
+
+    td {
+      font-feature-settings: "tnum";
+      padding: 8px 16px;
+      color: rgba(0,0,0,0.87);
+    }
+  }
 }
