@@ -3,8 +3,8 @@ import { Sort } from './icons';
 import prettyprint from '../../utils/prettyprint';
 
 @Component({
-  tag: 'marble-table',
-  styleUrl: 'marble-table.css'
+  tag: 'x-nomadx-table',
+  styleUrl: 'table.css'
 })
 export class Table {
 

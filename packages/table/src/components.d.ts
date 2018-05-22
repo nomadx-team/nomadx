@@ -30,31 +30,64 @@ import {
 declare global {
 
   namespace StencilComponents {
-    interface MarbleData {
+    interface NomadxTable {
+
+    }
+  }
+
+  interface HTMLNomadxTableElement extends StencilComponents.NomadxTable, HTMLStencilElement {}
+
+  var HTMLNomadxTableElement: {
+    prototype: HTMLNomadxTableElement;
+    new (): HTMLNomadxTableElement;
+  };
+  interface HTMLElementTagNameMap {
+    'nomadx-table': HTMLNomadxTableElement;
+  }
+  interface ElementTagNameMap {
+    'nomadx-table': HTMLNomadxTableElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'nomadx-table': JSXElements.NomadxTableAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface NomadxTableAttributes extends HTMLAttributes {
+
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface NomadxTableData {
       'data': any;
       'getData': () => ParsedData;
     }
   }
 
-  interface HTMLMarbleDataElement extends StencilComponents.MarbleData, HTMLStencilElement {}
+  interface HTMLNomadxTableDataElement extends StencilComponents.NomadxTableData, HTMLStencilElement {}
 
-  var HTMLMarbleDataElement: {
-    prototype: HTMLMarbleDataElement;
-    new (): HTMLMarbleDataElement;
+  var HTMLNomadxTableDataElement: {
+    prototype: HTMLNomadxTableDataElement;
+    new (): HTMLNomadxTableDataElement;
   };
   interface HTMLElementTagNameMap {
-    'marble-data': HTMLMarbleDataElement;
+    'nomadx-table-data': HTMLNomadxTableDataElement;
   }
   interface ElementTagNameMap {
-    'marble-data': HTMLMarbleDataElement;
+    'nomadx-table-data': HTMLNomadxTableDataElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'marble-data': JSXElements.MarbleDataAttributes;
+      'nomadx-table-data': JSXElements.NomadxTableDataAttributes;
     }
   }
   namespace JSXElements {
-    export interface MarbleDataAttributes extends HTMLAttributes {
+    export interface NomadxTableDataAttributes extends HTMLAttributes {
       'data'?: any;
     }
   }
@@ -64,7 +97,7 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface MarbleTable {
+    interface XNomadxTable {
       'data': any[][];
       'labelledby': string;
       'sortable': string;
@@ -72,25 +105,25 @@ declare global {
     }
   }
 
-  interface HTMLMarbleTableElement extends StencilComponents.MarbleTable, HTMLStencilElement {}
+  interface HTMLXNomadxTableElement extends StencilComponents.XNomadxTable, HTMLStencilElement {}
 
-  var HTMLMarbleTableElement: {
-    prototype: HTMLMarbleTableElement;
-    new (): HTMLMarbleTableElement;
+  var HTMLXNomadxTableElement: {
+    prototype: HTMLXNomadxTableElement;
+    new (): HTMLXNomadxTableElement;
   };
   interface HTMLElementTagNameMap {
-    'marble-table': HTMLMarbleTableElement;
+    'x-nomadx-table': HTMLXNomadxTableElement;
   }
   interface ElementTagNameMap {
-    'marble-table': HTMLMarbleTableElement;
+    'x-nomadx-table': HTMLXNomadxTableElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'marble-table': JSXElements.MarbleTableAttributes;
+      'x-nomadx-table': JSXElements.XNomadxTableAttributes;
     }
   }
   namespace JSXElements {
-    export interface MarbleTableAttributes extends HTMLAttributes {
+    export interface XNomadxTableAttributes extends HTMLAttributes {
       'data'?: any[][];
       'labelledby'?: string;
       'sortable'?: string;

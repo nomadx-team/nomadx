@@ -2,18 +2,28 @@ import { Component, Element, Prop, Method } from '@stencil/core';
 import { ParsedData } from '../../models/data';
 import { isMarkdown } from '../../utils/type';
 
+import { RenderErrorNoParent } from '../../utils/errors';
+
 import Papa from 'papaparse';
 import Markdown from 'marked';
 // import JSON5 from 'json5';
 
 @Component({
-  tag: 'marble-data',
-  styleUrl: 'marble-data.css'
+  tag: 'nomadx-table-data',
+  styleUrl: 'table-data.css'
 })
-export class Data {
+export class TableData {
 
   @Element() element: HTMLElement;
   @Prop() data: any;
+
+  componentWillLoad() {
+    if (this.element.parentElement.tagName === 'NOMADX-TABLE') {
+      return;
+    } else {
+      throw new Error(RenderErrorNoParent('nomadx-table-data', 'nomadx-table'))
+    }
+  }
 
   private getContent(): string {
     return this.element.innerHTML.trim();
@@ -80,10 +90,17 @@ export class Data {
   }
 
   @Method() getData(): ParsedData {
+    console.log('Get Data');
     if (!this.data) {
       return this.parseString(this.getContent())
     } else {
       return this.parseData(this.data);
+    }
+  }
+
+  hostData() {
+    return {
+      'aria-hidden': true
     }
   }
 

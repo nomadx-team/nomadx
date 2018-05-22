@@ -1,0 +1,7 @@
+nomadx-table-data {
+  display: none;
+}
+
+nomadx-table-data.hydrated {
+  visibility: hidden;
+}
