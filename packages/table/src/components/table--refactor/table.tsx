@@ -1,6 +1,8 @@
 import { Component, Element, Prop, State, Listen } from '@stencil/core';
+import { Sort } from './icons';
 import { ParsedData } from '../../models/data';
 import { RenderErrorNoChild } from '../../utils/errors';
+import prettyprint from '../../utils/prettyprint';
 
 @Component({
   tag: 'nomadx-table',
@@ -8,19 +10,14 @@ import { RenderErrorNoChild } from '../../utils/errors';
 })
 export class Table2 {
 
-  @Prop() sortable: string = '';
-  @Prop() labelledby: string;
-
-  @Element() element: HTMLElement;
-  private tableDataElement: HTMLNomadxTableDataElement;
-  @State() ready = false;
-  @State() data: ParsedData;
-  @State() isFocused = false;
-  @State() isRoving = false;
-  @State() focusedCell = { row: 0, col: 0 };
-
+  /**
+   * 1. Own Properties
+   */
   private get isSortable() {
-    return this.sortable;
+    return this.sortable !== '';
+  }
+  private get isSorted() {
+    return this.sort.mode !== 'none';
   }
   private get firstRow() {
     return this.isSortable ? 0 : 1;
@@ -34,13 +31,39 @@ export class Table2 {
   private get numHeaderRows() {
     return 1;
   }
-  // private get numHeaderCols() {
-  //   return this.data.data.length - 1;
-  // }
   private get numCols() {
     return this.data.data[0].length - 1;
   }
+  private tableDataElement: HTMLNomadxTableDataElement;
 
+  /**
+   * 2. Reference to host HTML element.
+   */
+  @Element() element: HTMLElement;
+
+  /**
+   * 3. State() variables
+   * Inlined decorator, alphabetical order.
+   */
+  @State() data: ParsedData;
+  @State() focusedCell = { row: -1, col: -1 };
+  @State() isFocused = false;
+  @State() isRoving = false;
+  @State() ready = false;
+  @State() sort: { col: number, mode: 'ascending' | 'descending' | 'none' } = { col: null, mode: 'none' };
+  @State() selectedCells = [];
+
+  /**
+   * 5. Public Property API
+   */
+  @Prop() sortable: string = '';
+  @Prop() labelledby: string;
+
+  /**
+   * 7. Component lifecycle events
+   * Ordered by their natural call order, for example
+   * WillLoad should go before DidLoad.
+   */
   componentWillLoad() {
     this.tableDataElement = this.element.querySelector('nomadx-table-data');
     if (!this.tableDataElement) {
@@ -53,6 +76,134 @@ export class Table2 {
     })
   }
 
+  /**
+   * 8. Listeners
+   * It is ok to place them in a different location
+   * if makes more sense in the context. Recommend
+   * starting a listener method with "on".
+   * Always use two lines.
+   */
+  @Listen('keydown.enter')
+  @Listen('keydown.space')
+  onSpaceOrEnter() {
+    if (this.isFocused) {
+      this.moveFocus({ row: this.firstRow, col: this.firstCol });
+    } else if (this.isRoving) {
+      if (this.focusedCell.row === 0 && this.isSortableColumn(this.focusedCell.col)) {
+        this.handleCellClick(this.focusedCell.col, true);
+      }
+    }
+  }
+
+  @Listen('keydown.left')
+  onKeydownLeft(e: KeyboardEvent) {
+    if (this.isRoving) {
+      let { row, col } = this.focusedCell;
+
+      if (col !== this.firstCol) {
+        if (e.shiftKey) {
+          // this.addSelection({ row: row, col: col - 1 })
+          // console.log('Shift key pressed!', this.selectedCells)
+        }
+        if (e.metaKey) {
+          this.moveFocus({ row: row, col: this.firstCol })
+          e.preventDefault();
+        } else {
+          this.moveFocus({ row: row, col: col - 1 })
+        }
+      }
+    } else if (this.isFocused) {
+      this.beginRoving();
+    }
+  }
+
+  @Listen('keydown.right')
+  onKeydownRight(e: KeyboardEvent) {
+    if (this.isRoving) {
+      let { row, col } = this.focusedCell;
+
+      if (col !== this.numCols) {
+        if (e.shiftKey) {
+          // console.log('Shift key pressed!', e)
+        }
+        if (e.metaKey) {
+          this.moveFocus({ row: row, col: this.numCols })
+        } else {
+          this.moveFocus({ row: row, col: col + 1 })
+        }
+      }
+    } else if (this.isFocused) {
+      this.beginRoving();
+    }
+  }
+
+  @Listen('keydown.up')
+  onKeydownUp(e: KeyboardEvent) {
+    if (this.isRoving) {
+      let { row, col } = this.focusedCell;
+
+      if (row !== this.firstRow) {
+        if (e.shiftKey) {
+          console.log('Shift key pressed!', e)
+        }
+        if (e.metaKey) {
+          this.moveFocus({ row: this.firstRow, col })
+        } else {
+          this.moveFocus({ row: row - 1, col })
+        }
+      }
+    } else if (this.isFocused) {
+      this.beginRoving();
+    }
+  }
+
+  @Listen('keydown.down')
+  onKeydownDown(e: KeyboardEvent) {
+    if (this.isRoving) {
+      let { row, col } = this.focusedCell;
+
+      if (row !== this.numRows) {
+        if (e.shiftKey) {
+          console.log('Shift key pressed!', e)
+        }
+        if (e.metaKey) {
+          this.moveFocus({ row: this.numRows, col })
+        } else {
+          this.moveFocus({ row: row + 1, col })
+        }
+      }
+    } else if (this.isFocused) {
+      this.beginRoving();
+    }
+  }
+
+  @Listen('keydown.escape')
+  onEscape() {
+    if (this.isFocused || this.isRoving) {
+      const next = this.element.querySelector(`[data-row="${this.firstRow}"][data-col="${this.firstCol}"]`) as HTMLElement;
+      next.focus();
+      next.blur();
+    }
+  }
+
+  @Listen('document:copy')
+  onCopy(e: ClipboardEvent) {
+    if (this.isFocused) {
+      e.clipboardData.setData('text/plain', `${prettyprint(this.data.data as any[][])}`);
+      e.clipboardData.setData('text/html', '<table>' + this.element.querySelector('table').innerHTML + '</table>');
+      e.preventDefault();
+    } else if (this.isRoving) {
+      const cellData = this.element.querySelector(`[data-row="${this.focusedCell.row}"][data-col="${this.focusedCell.col}"]`)
+      e.clipboardData.setData('text/plain', `${cellData.innerHTML}`);
+      e.preventDefault()
+    }
+  }
+
+  /**
+   * 10. Local methods
+   * Internal business logic. These methods cannot be
+   * called from the host element.
+   */
   private beginRoving() {
     this.isFocused = false;
     this.isRoving = true;
@@ -74,84 +225,26 @@ export class Table2 {
     })
   }
 
-  @Listen('keydown.left')
-  handleLeftArrow(e: KeyboardEvent) {
-    if (this.isRoving) {
-      let { row, col } = this.focusedCell;
+  private sortData(data: any[][]): any[][] {
+    const { col, mode } = this.sort;
+    const headers = data.slice(0, this.numHeaderRows);
+    const body = data.slice(this.numHeaderRows - 1);
 
-      if (col !== this.firstCol) {
-        if (e.shiftKey) {
-          // this.addSelection({ row: row, col: col - 1 })
-          // console.log('Shift key pressed!', this.selectedCells)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: row, col: this.firstCol })
-          e.preventDefault();
-        } else {
-          this.moveFocus({ row: row, col: col - 1 })
-        }
+    const sorted = body.slice(this.numHeaderRows).sort((a, b) => {
+      let itemA = a[col];
+      let itemB = b[col]
+      if (typeof itemA === 'string') {
+        itemA = itemA.toLowerCase();
+        itemB = itemB.toLowerCase();
       }
-    } else if (this.isFocused) {
-      this.beginRoving();
-    }
-  }
-  @Listen('keydown.right')
-  handleRightArrow(e: KeyboardEvent) {
-    if (this.isRoving) {
-      let { row, col } = this.focusedCell;
-
-      if (col !== this.numCols) {
-        if (e.shiftKey) {
-          // console.log('Shift key pressed!', e)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: row, col: this.numCols })
-        } else {
-          this.moveFocus({ row: row, col: col + 1 })
-        }
-      }
-    } else if (this.isFocused) {
-      this.beginRoving();
-    }
-  }
-
-  @Listen('keydown.up')
-  handleUpArrow(e: KeyboardEvent) {
-    if (this.isRoving) {
-      let { row, col } = this.focusedCell;
-
-      if (row !== this.firstRow) {
-        if (e.shiftKey) {
-          console.log('Shift key pressed!', e)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: this.firstRow, col })
-        } else {
-          this.moveFocus({ row: row - 1, col })
-        }
-      }
-    } else if (this.isFocused) {
-      this.beginRoving();
-    }
-  }
-
-  @Listen('keydown.down')
-  handleDownArrow(e: KeyboardEvent) {
-    if (this.isRoving) {
-      let { row, col } = this.focusedCell;
-
-      if (row !== this.numRows) {
-        if (e.shiftKey) {
-          console.log('Shift key pressed!', e)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: this.numRows, col })
-        } else {
-          this.moveFocus({ row: row + 1, col })
-        }
-      }
-    } else if (this.isFocused) {
-      this.beginRoving();
+      if (itemA < itemB) return -1;
+      if (itemA > itemB) return 1;
+      return 0;
+    });
+    if (mode === 'ascending') {
+      return [...headers, ...sorted];
+    } else if (mode === 'descending') {
+      return [...headers, ...sorted.reverse()];
     }
   }
 
@@ -159,7 +252,20 @@ export class Table2 {
     this.isRoving = true;
     this.focusedCell = { row: rowIndex, col: colIndex };
   }
-
+  private handleCellBlur() {
+    this.focusedCell = { row: -1, col: -1 };
+    this.isRoving = false;
+  }
+  private handleCellClick(colIndex: number, sortable: boolean = false) {
+    if (sortable) {
+      if (this.sort.col === colIndex) {
+        const mode = (this.sort.mode === 'ascending') ? 'descending' : (this.sort.mode === 'descending') ? 'none' : 'ascending';
+        this.sort = { col: colIndex, mode };
+      } else {
+        this.sort = { col: colIndex, mode: 'ascending' }
+      }
+    }
+  }
   private handleTableFocus() {
     this.isFocused = true;
     this.isRoving = false;
@@ -167,6 +273,7 @@ export class Table2 {
   private handleTableBlur() {
     this.isFocused = false;
     this.isRoving = false;
+    this.focusedCell = { row: -1, col: -1 };
   }
 
   private isFocusedCell(rowIndex, colIndex) {
@@ -175,8 +282,20 @@ export class Table2 {
   private isSelectedCell(rowIndex, colIndex) {
     return (this.focusedCell.row === rowIndex && this.focusedCell.col === colIndex);
   }
+  private isSortableColumn(colIndex) {
+    const sortableColumns = this.sortable.split(/\s+/).map(num => Number.parseInt(num, 10) - 1);
+    return sortableColumns.includes(colIndex);
+  }
+  private isSortedColumn(colIndex) {
+    return this.sort.col === colIndex;
+  }
 
-  createTable = (data: any[][]) => {
+
+/**
+ * Render Helpers
+ *
+ */
+createTable = (data: any[][]) => {
     const [header, ...body] = data;
     return (
       <table
@@ -202,23 +321,11 @@ export class Table2 {
             const classes = {
               'has-focused-cell': rowIndex === this.focusedCell.row
             }
-            return <tr class={classes}>
-              {
-                row.map((col, colIndex) => {
-                  const classes = {
-                    'is-focused': this.isFocusedCell(rowIndex, colIndex),
-                    'is-selected': this.isSelectedCell(rowIndex, colIndex)
-                  }
-                  return <th
-                    class={classes}
-                    tabindex="-1"
-                    onFocus={() => this.handleCellFocus(rowIndex, colIndex)}
-                    data-row={rowIndex}
-                    data-col={colIndex}
-                  > {col} </th>
-                })
-              }
+            return (
+              <tr class={classes}>
+                {row.map((col, colIndex) => this.createCell('th', col, rowIndex, colIndex))}
               </tr>
+            );
           })
         }
       </thead>
@@ -234,43 +341,91 @@ export class Table2 {
             const classes = {
               'has-focused-cell': rowIndex === this.focusedCell.row
             }
-            return <tr class={classes}>
-              {
-                row.map((col, colIndex) => {
-                  const classes = {
-                    'is-focused': this.isFocusedCell(rowIndex, colIndex),
-                    'is-selected': this.isSelectedCell(rowIndex, colIndex)
-                  }
-                  return <td
-                    class={classes}
-                    tabindex="-1"
-                    onFocus={() => this.handleCellFocus(rowIndex, colIndex)}
-                    data-row={rowIndex}
-                    data-col={colIndex}
-                  > {col} </td>
-                })
-              }
-            </tr>
+            return (
+              <tr class={classes}>
+                {row.map((col, colIndex) => this.createCell('td', col, rowIndex, colIndex))}
+              </tr>
+            );
           })
         }
       </tbody>
     )
   }
 
+  createCell(Tag: 'th' | 'td', content, rowIndex, colIndex) {
+    const sortable = rowIndex === 0 && this.isSortableColumn(colIndex);
+    const classes = {
+      'cell': true,
+      'sortable': sortable,
+      'is-focused': this.isFocusedCell(rowIndex, colIndex),
+      'is-selected': this.isSelectedCell(rowIndex, colIndex)
+    }
+    return <Tag
+      class={classes}
+      tabindex="-1"
+      onFocus={() => this.handleCellFocus(rowIndex, colIndex)}
+      onBlur={() => this.handleCellBlur()}
+      onClick={() => this.handleCellClick(colIndex, sortable)}
+      data-row={rowIndex}
+      data-col={colIndex}
+      aria-sort={sortable ? this.isSortedColumn(colIndex) ? this.sort.mode : 'none' : null}
+    >
+      { sortable ? this.createSortableCell(content) : content }
+    </Tag>
+  }
+
+  createSortableCell(content) {
+    return (
+      <div class="cell--inner">
+        { content }
+        <Sort />
+      </div>
+    )
+  }
+
+  /**
+   * 11. hostData() function
+   * Used to dynamically set host element attributes.
+   * Should be placed directly above render()
+   */
+  hostData() {
+    return {
+      class: {
+        'is-focused': this.isFocused,
+        'is-roving': this.isRoving
+      }
+    }
+  }
+
+  /**
+   * 12. render() function
+   * Always the last one in the class.
+   */
   render() {
     if (this.ready) {
+      const { data } = this;
       if (this.data.meta.isHTML) {
         return [
           <slot/>,
-          <div class="nomadx-table--container" innerHTML={this.data.data as string}></div>
+          <div class="nomadx-table--container" innerHTML={data.data as string}></div>
         ];
       } else if (this.data.meta.is2DArray) {
-        return [
-          <slot/>,
-          <div class="nomadx-table--container">
-            { this.createTable(this.data.data as any[][]) }
-          </div>
-        ];
+        if (this.isSorted) {
+          const sortedData = this.sortData(data.data as any[][]);
+          return [
+            <slot/>,
+            <div class="nomadx-table--container">
+              { this.createTable(sortedData) }
+            </div>
+          ];
+        } else {
+          return [
+            <slot />,
+            <div class="nomadx-table--container">
+              {this.createTable(data.data as any[][])}
+            </div>
+          ];
+        }
       }
     }
   }
