@@ -34,7 +34,14 @@ export class TableData {
     let meta = { isHTML: false, is2DArray: false };
     switch (true) {
       case isMarkdown(value):
-        data = Markdown(value.trim());
+        let content = Markdown(value.trim());
+        let container = document.createElement('div');
+        container.innerHTML = content;
+        const table = container.querySelector('table');
+        data = Array.from(table.querySelectorAll("tr")).map((rowEl) => {
+          return [...Array.from(rowEl.querySelectorAll('th')), ...Array.from(rowEl.querySelectorAll('td'))];
+        }).map(row => row.map(col => col.innerText));
+        container.remove();
         meta.isHTML = true;
         break;
       default:

@@ -30,47 +30,6 @@ import {
 declare global {
 
   namespace StencilComponents {
-    interface NomadxTable {
-      'name': string;
-      /**
-       * 5. Public Property API
-       */
-      'sortable': string;
-    }
-  }
-
-  interface HTMLNomadxTableElement extends StencilComponents.NomadxTable, HTMLStencilElement {}
-
-  var HTMLNomadxTableElement: {
-    prototype: HTMLNomadxTableElement;
-    new (): HTMLNomadxTableElement;
-  };
-  interface HTMLElementTagNameMap {
-    'nomadx-table': HTMLNomadxTableElement;
-  }
-  interface ElementTagNameMap {
-    'nomadx-table': HTMLNomadxTableElement;
-  }
-  namespace JSX {
-    interface IntrinsicElements {
-      'nomadx-table': JSXElements.NomadxTableAttributes;
-    }
-  }
-  namespace JSXElements {
-    export interface NomadxTableAttributes extends HTMLAttributes {
-      'name'?: string;
-      /**
-       * 5. Public Property API
-       */
-      'sortable'?: string;
-    }
-  }
-}
-
-
-declare global {
-
-  namespace StencilComponents {
     interface NomadxTableData {
       'data': any;
       'getData': () => ParsedData;
@@ -105,37 +64,39 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface XNomadxTable {
-      'data': any[][];
-      'labelledby': string;
+    interface NomadxTable {
+      'name': string;
+      /**
+       * 5. Public Property API
+       */
       'sortable': string;
-      'striped': any;
     }
   }
 
-  interface HTMLXNomadxTableElement extends StencilComponents.XNomadxTable, HTMLStencilElement {}
+  interface HTMLNomadxTableElement extends StencilComponents.NomadxTable, HTMLStencilElement {}
 
-  var HTMLXNomadxTableElement: {
-    prototype: HTMLXNomadxTableElement;
-    new (): HTMLXNomadxTableElement;
+  var HTMLNomadxTableElement: {
+    prototype: HTMLNomadxTableElement;
+    new (): HTMLNomadxTableElement;
   };
   interface HTMLElementTagNameMap {
-    'x-nomadx-table': HTMLXNomadxTableElement;
+    'nomadx-table': HTMLNomadxTableElement;
   }
   interface ElementTagNameMap {
-    'x-nomadx-table': HTMLXNomadxTableElement;
+    'nomadx-table': HTMLNomadxTableElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'x-nomadx-table': JSXElements.XNomadxTableAttributes;
+      'nomadx-table': JSXElements.NomadxTableAttributes;
     }
   }
   namespace JSXElements {
-    export interface XNomadxTableAttributes extends HTMLAttributes {
-      'data'?: any[][];
-      'labelledby'?: string;
+    export interface NomadxTableAttributes extends HTMLAttributes {
+      'name'?: string;
+      /**
+       * 5. Public Property API
+       */
       'sortable'?: string;
-      'striped'?: any;
     }
   }
 }

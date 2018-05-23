@@ -386,12 +386,12 @@ export class Table {
   render() {
     if (this.ready) {
       const { data } = this;
-      if (this.data.meta.isHTML) {
-        return [
-          <slot/>,
-          <div class="nomadx-table--container" innerHTML={data.data as string}></div>
-        ];
-      } else if (this.data.meta.is2DArray) {
+      // if (this.data.meta.isHTML) {
+      //   return [
+      //     <slot/>,
+      //     <div class="nomadx-table--container" innerHTML={data.data as string}></div>
+      //   ];
+      // } else if (this.data.meta.is2DArray) {
         if (this.isSorted) {
           const sortedData = this.sortData(data.data as any[][]);
           return [
@@ -408,7 +408,6 @@ export class Table {
             </div>
           ];
         }
-      }
     }
   }
 
