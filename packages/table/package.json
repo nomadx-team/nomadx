@@ -23,6 +23,7 @@
     "json5": "^1.0.1",
     "marked": "^0.4.0",
     "marktable": "^0.1.2",
+    "natural-compare": "^1.4.0",
     "papaparse": "^4.4.0"
   },
   "devDependencies": {

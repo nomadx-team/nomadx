@@ -1,8 +1,10 @@
 import { Component, Element, Prop, State, Listen } from '@stencil/core';
 import { Sort } from './icons';
 import { ParsedData } from '../../models/data';
+import { DIRECTION } from '../../models/direction';
 import { RenderErrorNoChild } from '../../utils/errors';
 import prettyprint from '../../utils/prettyprint';
+import naturalCompare from 'natural-compare';
 
 @Component({
   tag: 'nomadx-table',
@@ -51,13 +53,12 @@ export class Table2 {
   @State() isRoving = false;
   @State() ready = false;
   @State() sort: { col: number, mode: 'ascending' | 'descending' | 'none' } = { col: null, mode: 'none' };
-  @State() selectedCells = [];
 
   /**
    * 5. Public Property API
    */
   @Prop() sortable: string = '';
-  @Prop() labelledby: string;
+  @Prop() name: string;
 
   /**
    * 7. Component lifecycle events
@@ -95,86 +96,24 @@ export class Table2 {
     }
   }
 
-  @Listen('keydown.left')
-  onKeydownLeft(e: KeyboardEvent) {
-    if (this.isRoving) {
-      let { row, col } = this.focusedCell;
-
-      if (col !== this.firstCol) {
-        if (e.shiftKey) {
-          // this.addSelection({ row: row, col: col - 1 })
-          // console.log('Shift key pressed!', this.selectedCells)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: row, col: this.firstCol })
-          e.preventDefault();
-        } else {
-          this.moveFocus({ row: row, col: col - 1 })
-        }
-      }
-    } else if (this.isFocused) {
-      this.beginRoving();
-    }
-  }
-
-  @Listen('keydown.right')
-  onKeydownRight(e: KeyboardEvent) {
-    if (this.isRoving) {
-      let { row, col } = this.focusedCell;
-
-      if (col !== this.numCols) {
-        if (e.shiftKey) {
-          // console.log('Shift key pressed!', e)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: row, col: this.numCols })
-        } else {
-          this.moveFocus({ row: row, col: col + 1 })
-        }
-      }
-    } else if (this.isFocused) {
-      this.beginRoving();
-    }
-  }
-
   @Listen('keydown.up')
-  onKeydownUp(e: KeyboardEvent) {
-    if (this.isRoving) {
-      let { row, col } = this.focusedCell;
-
-      if (row !== this.firstRow) {
-        if (e.shiftKey) {
-          console.log('Shift key pressed!', e)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: this.firstRow, col })
-        } else {
-          this.moveFocus({ row: row - 1, col })
-        }
-      }
-    } else if (this.isFocused) {
-      this.beginRoving();
-    }
-  }
-
   @Listen('keydown.down')
-  onKeydownDown(e: KeyboardEvent) {
+  @Listen('keydown.left')
+  @Listen('keydown.right')
+  onKeydownArrow(e: KeyboardEvent) {
     if (this.isRoving) {
-      let { row, col } = this.focusedCell;
+      e.preventDefault();
+      const direction = e.key as DIRECTION;
+      let nextCell = this.getNextCell(this.focusedCell, direction);
+      if (!nextCell) return;
 
-      if (row !== this.numRows) {
-        if (e.shiftKey) {
-          console.log('Shift key pressed!', e)
-        }
-        if (e.metaKey) {
-          this.moveFocus({ row: this.numRows, col })
-        } else {
-          this.moveFocus({ row: row + 1, col })
-        }
+      if (e.metaKey) {
+        nextCell = this.getNextCellMeta(this.focusedCell, direction);
       }
+      this.moveFocus(nextCell);
     } else if (this.isFocused) {
       this.beginRoving();
-    }
+   }
   }
 
   @Listen('keydown.escape')
@@ -183,6 +122,7 @@ export class Table2 {
       const next = this.element.querySelector(`[data-row="${this.firstRow}"][data-col="${this.firstCol}"]`) as HTMLElement;
       next.focus();
       next.blur();
+      this.handleTableBlur();
     }
   }
 
@@ -193,8 +133,8 @@ export class Table2 {
       e.clipboardData.setData('text/html', '<table>' + this.element.querySelector('table').innerHTML + '</table>');
       e.preventDefault();
     } else if (this.isRoving) {
-      const cellData = this.element.querySelector(`[data-row="${this.focusedCell.row}"][data-col="${this.focusedCell.col}"]`)
-      e.clipboardData.setData('text/plain', `${cellData.innerHTML}`);
+      const cellData = this.element.querySelector(`[data-row="${this.focusedCell.row}"][data-col="${this.focusedCell.col}"]`) as HTMLElement;
+      e.clipboardData.setData('text/plain', `${cellData.innerText}`);
       e.preventDefault()
     }
   }
@@ -211,7 +151,6 @@ export class Table2 {
   }
 
   private moveFocus({ row, col }) {
-    console.log('Move Focus', { row, col });
     Array.from(this.element.querySelectorAll('tr')).forEach(rowEl => {
       const cells = [...Array.from(rowEl.querySelectorAll('th')), ...Array.from(rowEl.querySelectorAll('td'))]
       cells.forEach(cellEl => {
@@ -230,17 +169,11 @@ export class Table2 {
     const headers = data.slice(0, this.numHeaderRows);
     const body = data.slice(this.numHeaderRows - 1);
 
-    const sorted = body.slice(this.numHeaderRows).sort((a, b) => {
-      let itemA = a[col];
-      let itemB = b[col]
-      if (typeof itemA === 'string') {
-        itemA = itemA.toLowerCase();
-        itemB = itemB.toLowerCase();
-      }
-      if (itemA < itemB) return -1;
-      if (itemA > itemB) return 1;
-      return 0;
-    });
+    const sorted = body.slice(this.numHeaderRows)
+      .sort((a, b) => {
+        return naturalCompare(a[col], b[col]);
+      });
+
     if (mode === 'ascending') {
       return [...headers, ...sorted];
     } else if (mode === 'descending') {
@@ -279,9 +212,6 @@ export class Table2 {
   private isFocusedCell(rowIndex, colIndex) {
     return (this.focusedCell.row === rowIndex && this.focusedCell.col === colIndex);
   }
-  private isSelectedCell(rowIndex, colIndex) {
-    return (this.focusedCell.row === rowIndex && this.focusedCell.col === colIndex);
-  }
   private isSortableColumn(colIndex) {
     const sortableColumns = this.sortable.split(/\s+/).map(num => Number.parseInt(num, 10) - 1);
     return sortableColumns.includes(colIndex);
@@ -290,12 +220,40 @@ export class Table2 {
     return this.sort.col === colIndex;
   }
 
+  /** Get coordinates of the next cell in a given direction */
+  private getNextCell(cell: { row: number, col: number }, direction: DIRECTION) {
+    switch (direction) {
+      case DIRECTION.UP:
+        return (cell.row !== this.firstRow) ? { row: cell.row - 1, col: cell.col } : null;
+      case DIRECTION.DOWN:
+        return (cell.row !== this.numRows) ? { row: cell.row + 1, col: cell.col } : null;
+      case DIRECTION.LEFT:
+        return (cell.col !== this.firstCol) ? { row: cell.row, col: cell.col - 1 } : null;
+      case DIRECTION.RIGHT:
+        return (cell.col !== this.numCols) ? { row: cell.row, col: cell.col + 1 } : null;
+    }
+  }
+
+  /** Get coordinates of the first or last cell in a row/column */
+  private getNextCellMeta(cell: { row: number, col: number }, direction: DIRECTION) {
+    switch (direction) {
+      case DIRECTION.UP:
+        return (cell.row !== this.firstRow) ? { row: this.firstRow, col: cell.col } : null;
+      case DIRECTION.DOWN:
+        return (cell.row !== this.numRows) ? { row: this.numRows, col: cell.col } : null;
+      case DIRECTION.LEFT:
+        return (cell.col !== this.firstCol) ? { row: cell.row, col: this.firstCol } : null;
+      case DIRECTION.RIGHT:
+        return (cell.col !== this.numCols) ? { row: cell.row, col: this.numCols } : null;
+    }
+  }
+
 
 /**
  * Render Helpers
  *
  */
-createTable = (data: any[][]) => {
+    createTable = (data: any[][]) => {
     const [header, ...body] = data;
     return (
       <table
@@ -303,13 +261,29 @@ createTable = (data: any[][]) => {
         onFocus={() => this.handleTableFocus()}
         onBlur={() => this.handleTableBlur()}
         role="grid"
-        aria-labelledby={this.labelledby}
         aria-rowindex={this.focusedCell.row + 1}
         aria-colindex={this.focusedCell.col + 1}
       >
+        { this.createCaption() }
         { this.createHeader([header]) }
         { this.createBody([...body]) }
       </table>
+    )
+    }
+
+  createCaption = () => {
+    let sortLabel;
+    let sortMode;
+    let sort = 'unsorted';
+    if (this.isSortable && this.sort.mode !== 'none') {
+      sortLabel = this.data.data[0][this.sort.col];
+      sortMode = (this.sort.mode === 'ascending') ? 'up' : 'down';
+      sort = `sorted by ${sortLabel}, ${sortMode}`
+    }
+    return (
+      <caption aria-live="polite">
+        { this.name }, { sort }
+      </caption>
     )
   }
 
@@ -322,7 +296,7 @@ createTable = (data: any[][]) => {
               'has-focused-cell': rowIndex === this.focusedCell.row
             }
             return (
-              <tr class={classes}>
+              <tr class={classes} role="row">
                 {row.map((col, colIndex) => this.createCell('th', col, rowIndex, colIndex))}
               </tr>
             );
@@ -342,7 +316,7 @@ createTable = (data: any[][]) => {
               'has-focused-cell': rowIndex === this.focusedCell.row
             }
             return (
-              <tr class={classes}>
+              <tr class={classes} role="row">
                 {row.map((col, colIndex) => this.createCell('td', col, rowIndex, colIndex))}
               </tr>
             );
@@ -354,29 +328,37 @@ createTable = (data: any[][]) => {
 
   createCell(Tag: 'th' | 'td', content, rowIndex, colIndex) {
     const sortable = rowIndex === 0 && this.isSortableColumn(colIndex);
+    const sort = sortable ? this.isSortedColumn(colIndex) ? this.sort.mode : 'none' : null;
     const classes = {
       'cell': true,
       'sortable': sortable,
-      'is-focused': this.isFocusedCell(rowIndex, colIndex),
-      'is-selected': this.isSelectedCell(rowIndex, colIndex)
+      'is-focused': this.isFocusedCell(rowIndex, colIndex)
     }
-    return <Tag
-      class={classes}
-      tabindex="-1"
-      onFocus={() => this.handleCellFocus(rowIndex, colIndex)}
-      onBlur={() => this.handleCellBlur()}
-      onClick={() => this.handleCellClick(colIndex, sortable)}
-      data-row={rowIndex}
-      data-col={colIndex}
-      aria-sort={sortable ? this.isSortedColumn(colIndex) ? this.sort.mode : 'none' : null}
-    >
+    let attrs: any = {
+      class: classes,
+      tabindex: "-1",
+      onFocus: () => this.handleCellFocus(rowIndex, colIndex),
+      onBlur: () => this.handleCellBlur(),
+      onClick: () => this.handleCellClick(colIndex, sortable),
+      'data-row': rowIndex,
+      'data-col': colIndex,
+      'aria-sort': sort
+    }
+    if (Tag === 'th') {
+      attrs = {
+        ...attrs,
+        scope: 'col',
+        role: 'columnheader'
+      }
+    }
+    return <Tag {...attrs} >
       { sortable ? this.createSortableCell(content) : content }
     </Tag>
   }
 
   createSortableCell(content) {
     return (
-      <div class="cell--inner">
+      <div class="cell--inner" role="button">
         { content }
         <Sort />
       </div>

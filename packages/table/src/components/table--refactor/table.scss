@@ -1,6 +1,6 @@
 nomadx-table {
-  --focus-ring-color: #5B9DD9;
-  --select-ring-color: #29b6f6;
+  --focus-ring-color: #03A9F4;
+  --select-background-color: #B3E5FC;
 
   display: block;
 
@@ -8,8 +8,16 @@ nomadx-table {
     border-collapse: collapse;
     font-family: inherit;
 
+    caption {
+      opacity: 0;
+      height: 0;
+    }
+
+    td, th {
+      position: relative;
+    }
+
     thead {
-      z-index: 9;
       tr {
         border-bottom: 2px solid rgba(0,0,0,0.12);
       }
@@ -17,7 +25,6 @@ nomadx-table {
 
 
     tbody {
-      z-index: 8;
       tr {
         border-bottom: 1px solid rgba(0,0,0,0.06);
       }
@@ -38,17 +45,27 @@ nomadx-table {
     td, th {
       &:focus, &.is-focused {
         outline: 0;
-        border-radius: 2px;
-        box-shadow: 0 0 3px 2px var(--focus-ring-color);
+
+        &::after {
+          content: "";
+          border-radius: 1px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          box-shadow: 0 0 0 2px var(--focus-ring-color);
+        }
+
         z-index: 1;
       }
       &.is-selected {
-        box-shadow: 0 0 0 2px var(--select-ring-color);
+        background-color: var(--select-background-color);
       }
     }
 
     th {
-      font-weight: bold;
+      font-weight: normal;
       margin: 0;
       border: 0;
       color: rgba(0,0,0,0.54);
@@ -94,5 +111,7 @@ nomadx-table {
       color: rgba(0,0,0,0.87);
       z-index: 0;
     }
+
   }
+
 }

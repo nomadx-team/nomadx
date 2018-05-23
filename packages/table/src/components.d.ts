@@ -31,7 +31,7 @@ declare global {
 
   namespace StencilComponents {
     interface NomadxTable {
-      'labelledby': string;
+      'name': string;
       /**
        * 5. Public Property API
        */
@@ -58,7 +58,7 @@ declare global {
   }
   namespace JSXElements {
     export interface NomadxTableAttributes extends HTMLAttributes {
-      'labelledby'?: string;
+      'name'?: string;
       /**
        * 5. Public Property API
        */
