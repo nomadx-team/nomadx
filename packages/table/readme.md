@@ -3,23 +3,23 @@
 
 # Marble
 
-`<marble-table>` is a set of vanilla web-components to simplify the creation of awesome, accessible HTML tables.
+`<nomadx-table>` is a set of vanilla web-components to simplify the creation of awesome, accessible HTML tables.
 
 [Try the demo!](TODO)
 
 ### For Developers:
 
-Marble automatically creates rich HTML tables from your dataset. The flexible `<marble-data>` component allows you to generate tables through simple markup or bind data from Javascript, supporting CSV or TSV format, Markdown, JSON, and 2D Arrays.
+Marble automatically creates rich HTML tables from your dataset. The flexible `<nomadx-data>` component allows you to generate tables through simple markup or bind data from Javascript, supporting CSV or TSV format, Markdown, JSON, and 2D Arrays.
 
 Here's a minimal example using CSV format in your markup:
 ```html 
-<marble-table>
-  <marble-data slot="content">
+<nomadx-data>
+  <nomadx-table-data slot="content">
     Column A, Column B, Column C, Column D
     0, true, Hello, World!
     2, false, Foobar, Bazbing
-  </marble-data>
-</marble-table>
+  </nomadx-table-data>
+</nomadx-data>
 ```
 
 Marble allows you to declare sortable columns, and will automatically handle sorting for you.
