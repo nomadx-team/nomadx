@@ -65,11 +65,13 @@ declare global {
 
   namespace StencilComponents {
     interface NomadxTable {
+      'fixedWidth': string;
       'name': string;
       /**
        * 5. Public Property API
        */
       'sortable': string;
+      'striped': string;
     }
   }
 
@@ -92,11 +94,13 @@ declare global {
   }
   namespace JSXElements {
     export interface NomadxTableAttributes extends HTMLAttributes {
+      'fixedWidth'?: string;
       'name'?: string;
       /**
        * 5. Public Property API
        */
       'sortable'?: string;
+      'striped'?: string;
     }
   }
 }

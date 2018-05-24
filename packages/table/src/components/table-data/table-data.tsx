@@ -40,7 +40,9 @@ export class TableData {
         const table = container.querySelector('table');
         data = Array.from(table.querySelectorAll("tr")).map((rowEl) => {
           return [...Array.from(rowEl.querySelectorAll('th')), ...Array.from(rowEl.querySelectorAll('td'))];
-        }).map(row => row.map(col => col.innerText));
+        }).map(row => row.map(col => {
+          return { html: col.innerHTML, text: col.innerText }
+        }));
         container.remove();
         meta.isHTML = true;
         break;

@@ -15,8 +15,14 @@ export class Table {
   /**
    * 1. Own Properties
    */
+  private get isStriped() {
+    return (this.striped === '' || this.striped === 'true');
+  }
   private get isSortable() {
-    return this.sortable !== '';
+    return (this.sortable === '' || this.sortable === 'true') || (this.sortable && this.sortable !== '');
+  }
+  private get hasFixedWidth() {
+    return (this.fixedWidth === '' || this.fixedWidth === 'true') || (this.fixedWidth && this.fixedWidth !== '');
   }
   private get isSorted() {
     return this.sort.mode !== 'none';
@@ -58,6 +64,8 @@ export class Table {
    * 5. Public Property API
    */
   @Prop() sortable: string = '';
+  @Prop() striped: string = '';
+  @Prop() fixedWidth: string = '';
   @Prop() name: string;
 
   /**
@@ -86,7 +94,8 @@ export class Table {
    */
   @Listen('keydown.enter')
   @Listen('keydown.space')
-  onSpaceOrEnter() {
+  onSpaceOrEnter(e) {
+    e.preventDefault();
     if (this.isFocused) {
       this.moveFocus({ row: this.firstRow, col: this.firstCol });
     } else if (this.isRoving) {
@@ -213,11 +222,33 @@ export class Table {
     return (this.focusedCell.row === rowIndex && this.focusedCell.col === colIndex);
   }
   private isSortableColumn(colIndex) {
-    const sortableColumns = this.sortable.split(/\s+/).map(num => Number.parseInt(num, 10) - 1);
-    return sortableColumns.includes(colIndex);
+    if (this.sortable === '' || this.sortable === 'true') {
+      return true;
+    } else {
+      const sortableColumns = this.sortable.split(/\s+/).map(num => Number.parseInt(num, 10) - 1);
+      return sortableColumns.includes(colIndex);
+    }
+  }
+  private isFixedWidthColumn(colIndex) {
+    if (this.fixedWidth === '' || this.fixedWidth === 'true') {
+      return true;
+    } else {
+      const fixedWidthColumns = this.fixedWidth.split(/\s+/).map(num => Number.parseInt(num, 10) - 1);
+      return fixedWidthColumns.includes(colIndex);
+    }
   }
   private isSortedColumn(colIndex) {
     return this.sort.col === colIndex;
+  }
+
+  private getColumnName(colIndex) {
+    if (this.data.meta.is2DArray) {
+      const name = this.data.data[0][colIndex];
+      return `col-${name}`.toLowerCase();
+    } else if (this.data.meta.isHTML) {
+      const name = this.data.data[0][colIndex].text;
+      return `col-${name}`.toLowerCase();
+    }
   }
 
   /** Get coordinates of the next cell in a given direction */
@@ -327,12 +358,15 @@ export class Table {
   }
 
   createCell(Tag: 'th' | 'td', content, rowIndex, colIndex) {
+    const columnName = this.getColumnName(colIndex);
     const sortable = rowIndex === 0 && this.isSortableColumn(colIndex);
     const sort = sortable ? this.isSortedColumn(colIndex) ? this.sort.mode : 'none' : null;
     const classes = {
       'cell': true,
+      [columnName]: true,
       'sortable': sortable,
-      'is-focused': this.isFocusedCell(rowIndex, colIndex)
+      'is-focused': this.isFocusedCell(rowIndex, colIndex),
+      'is-fixed-width': this.isFixedWidthColumn(colIndex)
     }
     let attrs: any = {
       class: classes,
@@ -351,9 +385,22 @@ export class Table {
         role: 'columnheader'
       }
     }
-    return <Tag {...attrs} >
-      { sortable ? this.createSortableCell(content) : content }
-    </Tag>
+
+    if (this.data.meta.isHTML) {
+      if (sortable) {
+        return <Tag {...attrs}>
+          <div class="cell--inner" role="button" innerHTML={content.html}>
+            <Sort />
+          </div>
+        </Tag>
+      } else {
+        return <Tag {...attrs} innerHTML={content.html}> </Tag>
+      }
+    } else {
+      return <Tag {...attrs} >
+        { sortable ? this.createSortableCell(content) : content }
+      </Tag>
+    }
   }
 
   createSortableCell(content) {
@@ -374,7 +421,8 @@ export class Table {
     return {
       class: {
         'is-focused': this.isFocused,
-        'is-roving': this.isRoving
+        'is-roving': this.isRoving,
+        'is-striped': this.isStriped
       }
     }
   }
@@ -386,14 +434,8 @@ export class Table {
   render() {
     if (this.ready) {
       const { data } = this;
-      // if (this.data.meta.isHTML) {
-      //   return [
-      //     <slot/>,
-      //     <div class="nomadx-table--container" innerHTML={data.data as string}></div>
-      //   ];
-      // } else if (this.data.meta.is2DArray) {
         if (this.isSorted) {
-          const sortedData = this.sortData(data.data as any[][]);
+          const sortedData = this.sortData(data.data);
           return [
             <slot/>,
             <div class="nomadx-table--container">
@@ -404,7 +446,7 @@ export class Table {
           return [
             <slot />,
             <div class="nomadx-table--container">
-              {this.createTable(data.data as any[][])}
+              {this.createTable(data.data)}
             </div>
           ];
         }
