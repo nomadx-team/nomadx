@@ -17,6 +17,6 @@ export default function prettyprint(tableData: (string | number | boolean)[][]) 
   return tableData.map(row => {
     return row.map((col, colIndex) => {
       return col.toString().padEnd(longestItems[colIndex]);
-    }).join('\t');
+    }).join('  ');
   }).join('\n')
 }
