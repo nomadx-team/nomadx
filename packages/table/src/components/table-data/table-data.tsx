@@ -1,12 +1,10 @@
 import { Component, Element, Prop, Method } from '@stencil/core';
 import { ParsedData } from '../../models/data';
 import { isMarkdown } from '../../utils/type';
-
 import { RenderErrorNoParent } from '../../utils/errors';
 
 import Papa from 'papaparse';
 import Markdown from 'marked';
-// import JSON5 from 'json5';
 
 @Component({
   tag: 'nomadx-table-data',
@@ -76,21 +74,19 @@ export class TableData {
         // Array of Objects
         data = [];
         data[0] = Object.keys(firstRow);
-        value.forEach((row, rowIndex) => {
-          if (rowIndex !== 0) {
-            data.push(Object.values(row).map(col => {
-              if (typeof col === 'string') {
-                col = col.trim();
-                if (col === 'true' || col === 'false') {
-                  return col === 'true';
-                } else if (!Number.isNaN(Number.parseFloat(col as string))) {
-                  return Number.parseFloat(col as string);
-                } else {
-                  return col;
-                }
+        value.forEach((row) => {
+          data.push(Object.values(row).map(col => {
+            if (typeof col === 'string') {
+              col = col.trim();
+              if (col === 'true' || col === 'false') {
+                return col === 'true';
+              } else if (!Number.isNaN(Number.parseFloat(col as string))) {
+                return Number.parseFloat(col as string);
+              } else {
+                return col;
               }
-            }))
-          }
+            }
+          }))
         })
         meta.is2DArray = true;
       }
