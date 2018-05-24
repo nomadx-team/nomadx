@@ -14,32 +14,25 @@
       max-width: 100vw;
     }
 
-    nomadx-table .col-neato {
-      --fixed-width: 100px;
+    nomadx-table .col-orderdate {
+      --fixed-width: 128px;
     }
   </style>
 
 </head>
 
 <body>
-  <!-- OrderDate, Region, Rep, Item, Units, UnitCost, Total
-  1/23/2016, Central Stupidly Long Row, Kivell, Binder, 50, 19.99, 999.50
-  2/9/2016, Central, Jardine, Pencil, 36, 4.99, 179.64
-  1/6/2016, East, Jones, Pencil, 95, 1.99, 189.05
-  3/15/2016, West, Sorvino, Pencil, 56, 2.99, 167.44
-  2/26/2016, Central, Gill, Pen, 27, 19.99, 539.73
-  4/1/2016, East, Jones, Binder, 60, 4.99, 299.40 -->
 
   <h2 id="table-label">My Awesome Table</h2>
     <nomadx-table name="Orders" sortable="1 2 3" striped="false" fixed-width="1">
       <nomadx-table-data>
-        | Neato | *Burrito* | Mi | Amigo | !  |
-        |-------|---------|----|-------|----|
-        | A very long cell with content | A very long cell with content | C  | D     | E  |
-        | 1     | 2       | 3  | 4     | 5 |
-        | -5    | -4      | -3 | -2    | -1 |
-        | -5    | -4      | -3 | -2    | -1 |
-        | -5    | -4      | -3 | -2    | -1 |
+       OrderDate, Region, Rep, Item, Units, UnitCost, Total
+        1/23/2016, Central Stupidly Long Row, Kivell, Binder, 50, 19.99, 999.50
+        2/9/2016, Central, Jardine, Pencil, 36, 4.99, 179.64
+        1/6/2016, East, Jones, Pencil, 95, 1.99, 189.05
+        3/15/2016, West, Sorvino, Pencil, 56, 2.99, 167.44
+        2/26/2016, Central, Gill, Pen, 27, 19.99, 539.73
+        4/1/2016, East, Jones, Binder, 60, 4.99, 299.40
     </nomadx-table-data>
   </nomadx-table>
 

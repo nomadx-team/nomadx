@@ -7,23 +7,16 @@ nomadx-table {
 
   --table-border: 1px solid #dfe2e5;
   --cell-padding: 12px;
+  --sort-active-color: #000;
 
   // Focus Ring
-  --focus-ring-width: 2px;
-  --focus-ring-blur: 0;
-  --focus-ring-color: #29b6f6;
-  --focus-ring-border-radius: 2px;
-
+  // --focus-ring-width: 2px;
+  // --focus-ring-blur: 0;
+  // --focus-ring-color: #29b6f6;
+  // --focus-ring-border-radius: 2px;
 
   display: block;
   width: 100%;
-
-  // .nomadx-table--container {
-  //   display: block;
-  //   position: relative;
-  //   overflow: auto;
-  //   max-width: 100%;
-  // }
 
   table {
     border-collapse: collapse;
@@ -126,10 +119,10 @@ nomadx-table {
         }
 
         &[aria-sort="ascending"] svg .arrow-top {
-          fill: rgba(0, 0, 0, 1);
+          fill: var(--sort-active-color);
         }
         &[aria-sort="descending"] svg .arrow-bottom {
-          fill: rgba(0, 0, 0, 1);
+          fill: var(--sort-active-color);
         }
 
       }

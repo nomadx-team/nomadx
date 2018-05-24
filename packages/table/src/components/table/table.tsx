@@ -422,7 +422,8 @@ export class Table {
       class: {
         'is-focused': this.isFocused,
         'is-roving': this.isRoving,
-        'is-striped': this.isStriped
+        'is-striped': this.isStriped,
+        'has-fixed-width': this.hasFixedWidth
       }
     }
   }
