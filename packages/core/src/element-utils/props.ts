@@ -1,4 +1,4 @@
-import { isBoolean, isString, isBooleanString, isEmptyString } from './type-guards/guards';
+import { isBoolean, isString, isBooleanString, isEmptyString } from '../type-guards/guards';
 
 
 /*

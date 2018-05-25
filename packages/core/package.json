@@ -2,13 +2,35 @@
   "name": "@nomadx/core",
   "version": "0.1.0",
   "description": "Shared utils for Nomadx elements",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc build",
+    "dev": "tsc watch",
+    "start": "npm run dev",
+    "test": "jest --no-cache",
+    "test.watch": "jest --watch --no-cache"
   },
   "author": "Nate Moore <nate@natemoo.re> (http://projects.natemoo.re/)",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^22.2.3",
     "typescript": "^2.8.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/@stencil/core/testing/jest.preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx"
+    ]
   }
 }
