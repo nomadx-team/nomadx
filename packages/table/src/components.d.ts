@@ -30,6 +30,41 @@ import {
 declare global {
 
   namespace StencilComponents {
+    interface NomadxTableCell {
+      'column': string | number;
+      'row': string | number;
+    }
+  }
+
+  interface HTMLNomadxTableCellElement extends StencilComponents.NomadxTableCell, HTMLStencilElement {}
+
+  var HTMLNomadxTableCellElement: {
+    prototype: HTMLNomadxTableCellElement;
+    new (): HTMLNomadxTableCellElement;
+  };
+  interface HTMLElementTagNameMap {
+    'nomadx-table-cell': HTMLNomadxTableCellElement;
+  }
+  interface ElementTagNameMap {
+    'nomadx-table-cell': HTMLNomadxTableCellElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'nomadx-table-cell': JSXElements.NomadxTableCellAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface NomadxTableCellAttributes extends HTMLAttributes {
+      'column'?: string | number;
+      'row'?: string | number;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
     interface NomadxTableData {
       'data': any;
       'getData': () => ParsedData;

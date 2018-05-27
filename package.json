@@ -1,5 +1,5 @@
 {
-  "name": "@nomadx/elements",
+  "name": "nomadx",
   "version": "0.1.0",
   "description": "Monorepo for Nomadx web components",
   "main": "index.js",

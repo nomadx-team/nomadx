@@ -1,4 +1,5 @@
 import { Component, Element, Prop, State, Listen } from '@stencil/core';
+import { getPropEnabled, getPropScope } from '@nomadx/core';
 import { Sort } from './icons';
 import { ParsedData } from '../../models/data';
 import { DIRECTION } from '../../models/direction';
@@ -16,13 +17,13 @@ export class Table {
    * 1. Own Properties
    */
   private get isStriped() {
-    return (this.striped === '' || this.striped === 'true');
+    return getPropEnabled(this.striped);
   }
   private get isSortable() {
-    return (this.sortable === '' || this.sortable === 'true') || (this.sortable && this.sortable !== '');
+    return getPropEnabled(this.sortable);
   }
   private get hasFixedWidth() {
-    return (this.fixedWidth === '' || this.fixedWidth === 'true') || (this.fixedWidth && this.fixedWidth !== '');
+    return getPropEnabled(this.fixedWidth);
   }
   private get isSorted() {
     return this.sort.mode !== 'none';
@@ -222,7 +223,8 @@ export class Table {
     return (this.focusedCell.row === rowIndex && this.focusedCell.col === colIndex);
   }
   private isSortableColumn(colIndex) {
-    if (this.sortable === '' || this.sortable === 'true') {
+    const scope = getPropScope(this.sortable);
+    if (scope === 'global') {
       return true;
     } else {
       const sortableColumns = this.sortable.split(/\s+/).map(num => Number.parseInt(num, 10) - 1);
@@ -230,7 +232,8 @@ export class Table {
     }
   }
   private isFixedWidthColumn(colIndex) {
-    if (this.fixedWidth === '' || this.fixedWidth === 'true') {
+    const scope = getPropScope(this.fixedWidth);
+    if (scope === 'global') {
       return true;
     } else {
       const fixedWidthColumns = this.fixedWidth.split(/\s+/).map(num => Number.parseInt(num, 10) - 1);

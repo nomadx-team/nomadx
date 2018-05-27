@@ -14,7 +14,7 @@
       max-width: 100vw;
     }
 
-    nomadx-table .col-orderdate {
+    nomadx-table .is-fixed-width {
       --fixed-width: 128px;
     }
   </style>
@@ -24,8 +24,17 @@
 <body>
 
   <h2 id="table-label">My Awesome Table</h2>
-    <nomadx-table name="Orders" sortable="1 2 3" striped="false" fixed-width="1">
-      <nomadx-table-data id="order-data"> </nomadx-table-data>
+
+    <nomadx-table name="Orders" sortable striped="false" fixed-width="3 4 5 6">
+      <nomadx-table-data>
+        street,city,zip,state,beds,baths,sq__ft,type,sale_date,price,latitude,longitude
+        3526 HIGH ST,SACRAMENTO,95838,CA,2,1,836,Residential,Wed May 21 00:00:00 EDT 2008,59222,38.631913,-121.434879
+        51 OMAHA CT,SACRAMENTO,95823,CA,3,1,1167,Residential,Wed May 21 00:00:00 EDT 2008,68212,38.478902,-121.431028
+        2796 BRANCH ST,SACRAMENTO,95815,CA,2,1,796,Residential,Wed May 21 00:00:00 EDT 2008,68880,38.618305,-121.443839
+        2805 JANETTE WAY,SACRAMENTO,95815,CA,2,1,852,Residential,Wed May 21 00:00:00 EDT 2008,69307,38.616835,-121.439146
+        6001 MCMAHON DR,SACRAMENTO,95824,CA,2,1,797,Residential,Wed May 21 00:00:00 EDT 2008,81900,38.51947,-121.435768
+        5828 PEPPERMILL CT,SACRAMENTO,95841,CA,3,1,1122,Condo,Wed May 21 00:00:00 EDT 2008,89921,38.662595,-121.327813
+      </nomadx-table-data>
     </nomadx-table>
 
   <!-- <nomadx-table-data id="csv">
