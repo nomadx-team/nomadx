@@ -3,7 +3,7 @@
 # Nomadx
 Awesome, accessible vanilla web components
 
-![Nomadx Logo](https://raw.githubusercontent.com/nomadx-team/nomadx-logo/master/logo.svg)
+![Nomadx Logo](https://raw.githubusercontent.com/nomadx-team/nomadx-logo/master/logo.svg?sanitize=true)
 
 ## Packages
 - [@nomadx/core](./packages/core/README.md)
