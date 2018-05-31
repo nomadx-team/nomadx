@@ -23,20 +23,26 @@
 
 <body>
 
+  <nomadx-skip-link to="content"> Skip to Main Content </nomadx-skip-link>
+
   <h2 id="table-label">My Awesome Table</h2>
+    <nav>
+      <ul>
+        <li tabindex="0">Hello</li>
+        <li tabindex="0">World</li>
+        <li tabindex="0">this</li>
+        <li tabindex="0">is</li>
+        <li tabindex="0">annoying</li>
+        <li tabindex="0">to</li>
+        <li tabindex="0">tab</li>
+        <li tabindex="0">thru</li>
+      </ul>
+    </nav>
 
-
-    <nomadx-table name="Orders" sortable="1" striped fixed-width="1">
-      <nomadx-table-data>
-        street,city,zip,state,beds,baths,sq__ft,type,sale_date,price,latitude,longitude
-        3526 HIGH ST,SACRAMENTO,95838,CA,2,1,836,Residential,Wed May 21 00:00:00 EDT 2008,59222,38.631913,-121.434879
-        51 OMAHA CT,SACRAMENTO,95823,CA,3,1,1167,Residential,Wed May 21 00:00:00 EDT 2008,68212,38.478902,-121.431028
-        2796 BRANCH ST,SACRAMENTO,95815,CA,2,1,796,Residential,Wed May 21 00:00:00 EDT 2008,68880,38.618305,-121.443839
-        2805 JANETTE WAY,SACRAMENTO,95815,CA,2,1,852,Residential,Wed May 21 00:00:00 EDT 2008,69307,38.616835,-121.439146
-        6001 MCMAHON DR,SACRAMENTO,95824,CA,2,1,797,Residential,Wed May 21 00:00:00 EDT 2008,81900,38.51947,-121.435768
-        5828 PEPPERMILL CT,SACRAMENTO,95841,CA,3,1,1122,Condo,Wed May 21 00:00:00 EDT 2008,89921,38.662595,-121.327813
-      </nomadx-table-data>
-    </nomadx-table>
+    <div id="content">
+      <h2>Hello world!</h2>
+      <p> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi, cum hic repellat suscipit alias voluptatibus debitis itaque quidem unde ducimus velit deserunt soluta molestias impedit laboriosam aperiam nostrum doloribus rem? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga consequatur possimus voluptatibus adipisci, aliquam accusamus placeat libero perspiciatis dolorem exercitationem assumenda, velit explicabo dolore soluta <a href="#">obcaecati</a> voluptates! Molestiae, eum nulla?</p>
+    </div>
 
   <!-- <nomadx-table-data id="csv">
     a, b, c, d, e
@@ -68,16 +74,22 @@
   <input type="checkbox" name="test" id="test" />
 
   <script>
-    const dataEl = document.querySelector('#order-data');
-    dataEl.componentOnReady().then(() => {
-      console.log(dataEl.id);
-      dataEl.data = `
-        cool, stuff, mang
-        0, 1, 2
-        3, 4, 7
-        -1, 12, 0
-      `;
+    const body = document.body;
+    body.style.setProperty('opacity', '0');
+    const item = document.querySelector('nomadx-skip-link');
+    item.componentOnReady().then(() => {
+      body.style.setProperty('opacity', '1');
     })
+    // const dataEl = document.querySelector('#order-data');
+    // dataEl.componentOnReady().then(() => {
+    //   console.log(dataEl.id);
+    //   dataEl.data = `
+    //     cool, stuff, mang
+    //     0, 1, 2
+    //     3, 4, 7
+    //     -1, 12, 0
+    //   `;
+    // })
     // Array.from(document.querySelectorAll('marble-data')).forEach((container) => {
     //   container.componentOnReady().then(() => {
     //       console.group(container.id)

@@ -1,0 +1,29 @@
+nomadx-skip-link {
+  --height: 48px;
+  --background-color: black;
+  --color: white;
+  position: absolute;
+  display: block;
+  width: calc(100% - 24px);
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  pointer-events: none;
+  height: var(--height);
+  background-color: var(--background-color);
+  color: var(--color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 150ms cubic-bezier(0.23, 1, 0.320, 1);
+  transform: translateY(12px);
+  opacity: 0;
+
+  &:focus {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: initial;
+  }
+}
