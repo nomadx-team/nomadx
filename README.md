@@ -7,3 +7,4 @@ Awesome, accessible vanilla web components
 ## Packages
 - [@nomadx/core](./packages/core/README.md)
 - [@nomadx/table](./packages/table/README.md)
+- [@nomadx/skip-link](./packages/skip-link/README.md)
