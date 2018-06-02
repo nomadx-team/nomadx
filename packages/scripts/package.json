@@ -1,0 +1,17 @@
+{
+  "name": "@nomadx/scripts",
+  "version": "0.1.0",
+  "description": "Shared build scripts for Nomadx components",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -Rf dist && tsc -p ."
+  },
+  "author": "Nate Moore <nate@natemoo.re> (http://projects.natemoo.re/)",
+  "license": "ISC",
+  "dependencies": {
+    "@types/inquirer": "0.0.41",
+    "await-exec": "^0.1.1",
+    "inquirer": "^6.0.0",
+    "typescript": "^2.9.1"
+  }
+}
