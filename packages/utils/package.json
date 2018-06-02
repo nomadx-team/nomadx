@@ -34,5 +34,8 @@
       "json",
       "jsx"
     ]
+  },
+  "dependencies": {
+    "@nomadx/scripts": "^0.1.0"
   }
 }

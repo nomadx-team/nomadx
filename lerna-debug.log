@@ -1,26 +1,19 @@
-0 silly input [ '../table' ]
-1 silly flags { _: [ 'import' ],
-1 silly flags   'reject-cycles': false,
-1 silly flags   rejectCycles: false,
-1 silly flags   pathToRepo: '../table' }
-2 verbose rootPath /Users/natemoore/Documents/professional/oss/@nomadx/elements
-3 info version 2.8.0
-4 silly isInitialized
-5 silly isInitialized true
-6 silly existsSync /Users/natemoore/Documents/professional/oss/@nomadx/elements/VERSION
-7 info versioning independent
-8 silly initialize attempt
-9 silly statSync /Users/natemoore/Documents/professional/oss/@nomadx/table
-10 silly getWorkspaceRoot
-11 verbose getWorkspaceRoot /Users/natemoore/Documents/professional/oss/@nomadx/elements
-12 silly existsSync /Users/natemoore/Documents/professional/oss/@nomadx/elements/packages/table
-13 silly getCurrentSHA
-14 error initialize caught error
-15 error Error: fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.
-15 error Use '--' to separate paths from revisions, like this:
-15 error 'git <command> [<revision>...] -- [<file>...]'
-15 error
-15 error     at Function.module.exports.sync (/Users/natemoore/.nvm/versions/node/v8.4.0/lib/node_modules/lerna/node_modules/execa/index.js:303:26)
-15 error     at Function.execSync (/Users/natemoore/.nvm/versions/node/v8.4.0/lib/node_modules/lerna/lib/ChildProcessUtilities.js:59:30)
-15 error     at Function.getCurrentSHA (/Users/natemoore/.nvm/versions/node/v8.4.0/lib/node_modules/lerna/lib/GitUtilities.js:213:49)
-15 error     at ImportCommand.initialize (/Users/natemoore/.nvm/versions/node/v8.4.0/lib/node_modules/lerna/lib/commands/ImportCommand.js:155:51)
+135 error execute callback with error
+136 error Error: Command failed: npm install
+136 error npm WARN checkPermissions Missing write access to /Users/natemoore/Documents/professional/oss/@nomadx/nomadx/packages/table/node_modules/@nomadx/core
+136 error npm WARN table No repository field.
+136 error npm WARN table No license field.
+136 error
+136 error npm ERR! path /Users/natemoore/Documents/professional/oss/@nomadx/nomadx/packages/table/node_modules/@nomadx/core
+136 error npm ERR! code ENOENT
+136 error npm ERR! errno -2
+136 error npm ERR! syscall access
+136 error npm ERR! enoent ENOENT: no such file or directory, access '/Users/natemoore/Documents/professional/oss/@nomadx/nomadx/packages/table/node_modules/@nomadx/core'
+136 error npm ERR! enoent This is related to npm not being able to find a file.
+136 error npm ERR! enoent
+136 error
+136 error npm ERR! A complete log of this run can be found in:
+136 error npm ERR!     /Users/natemoore/.npm/_logs/2018-06-02T17_09_30_585Z-debug.log
+136 error
+136 error     at Promise.all.then.arr (/Users/natemoore/.nvm/versions/node/v8.11.2/lib/node_modules/lerna/node_modules/execa/index.js:236:11)
+136 error     at <anonymous>
