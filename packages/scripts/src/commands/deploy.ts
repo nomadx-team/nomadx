@@ -1,4 +1,4 @@
-import exec from 'await-exec';
+import * as exec from 'await-exec';
 import * as inquirer from 'inquirer';
 
 async function add() {
