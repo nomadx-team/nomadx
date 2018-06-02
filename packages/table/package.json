@@ -10,6 +10,7 @@
   ],
   "browser": "dist/nomadx-table.js",
   "scripts": {
+    "works": "nomadx",
     "build": "stencil build",
     "dev": "sd concurrent \"stencil build --dev --watch\" \"stencil-dev-server\" ",
     "serve": "stencil-dev-server",
@@ -18,6 +19,7 @@
     "test.watch": "jest --watch --no-cache"
   },
   "dependencies": {
+    "@nomadx/scripts": "^0.1.0",
     "@nomadx/utils": "^0.1.0",
     "@stencil/sass": "0.0.5",
     "clipboard": "^2.0.1",
