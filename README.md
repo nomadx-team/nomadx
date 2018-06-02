@@ -2,9 +2,15 @@
 
 ![Nomadx Logo](https://raw.githubusercontent.com/nomadx-team/nomadx-logo/master/logo.svg?sanitize=true)
 
+[Read the Docs](https://nomadx.tools) (coming soon)
+
 Awesome, accessible vanilla web components
 
 ## Packages
-- [@nomadx/core](./packages/core/README.md)
-- [@nomadx/table](./packages/table/README.md)
 - [@nomadx/skip-link](./packages/skip-link/README.md)
+- [@nomadx/table](./packages/table/README.md)
+- [@nomadx/test](./packages/test/README.md)
+- [@nomadx/utils](./packages/utils/README.md)
+
+## Contributing
+That would be neat. Thanks.
