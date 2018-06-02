@@ -7,7 +7,7 @@ const writeFile = promisify(fs.writeFile);
 
 async function getPackages() {
     const packages = await readdir('./packages');
-    return packages.sort();
+    return packages.sort().filter(name => !name.startsWith('.'));
 }
 
 function getPackageMeta(packages) {
