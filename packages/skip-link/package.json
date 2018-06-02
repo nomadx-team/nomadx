@@ -18,7 +18,7 @@
     "test.watch": "jest --watch --no-cache"
   },
   "dependencies": {
-    "@nomadx/core": "^0.1.0",
+    "@nomadx/utils": "^0.1.0",
     "@stencil/sass": "0.0.5",
     "clipboard": "^2.0.1",
     "json5": "^1.0.1",
