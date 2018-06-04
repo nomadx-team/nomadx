@@ -114,9 +114,9 @@ tableB.onComponentReady().then(() => {
 | Attribute   	            | Value                                	| Default 	|
 |-------------------------	|--------------------------------------	|---------	|
 | [name](#name)             | string                               	| ""      	|
-| [striped](#striped)     	| present|'true'|'false'               	| false   	|
-| [sortable](#sortable)    	| present|'true'|'false'|'0 1 2 3 ...' 	| false   	|
-| [fixed-width](#fixed-width) | present|'true'|'false'|'0 1 2 3 ...' 	| false   	|
+| [striped](#striped)     	| present\|'true'\|'false'               	| false   	|
+| [sortable](#sortable)    	| present\|'true'\|'false'\|'0 1 2 3 ...' 	| false   	|
+| [fixed-width](#fixed-width) | present\|'true'\|'false'\|'0 1 2 3 ...' 	| false   	|
 
 ### Name
 Setting a name for the table is highly reccommended for accessibility. This will automatically be read to any users interacting with your project via assistive technology.
