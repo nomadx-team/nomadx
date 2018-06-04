@@ -13,6 +13,6 @@ if (npmRunArgs) {
     cmdArgs = cmdArgs.concat(JSON.parse(npmRunArgs).original);
 }
 
-const app = require('../dist');
+const cli = require('../dist');
 
-app.run(process.argv.slice(2));
+cli.run(process.argv.slice(2));

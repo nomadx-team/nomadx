@@ -1,28 +1,32 @@
 import * as exec from 'await-exec';
 import * as inquirer from 'inquirer';
 
-async function add() {
+async function gitAdd() {
     return await exec('git add .');
 }
 
-async function commit() {
+async function gitTag(version?: string) {
+    return await exec(`git tag -a "v${version}" -m "Version ${version}"`);
+}
+
+async function gitCommit() {
     const { message } = await inquirer.prompt<{ message: string }>([{
         type: 'input',
         name: 'message',
         message: 'Enter a commit message',
         default: 'auto-deploy'
     }]);
-
     return await exec(`git commit -m "${message}"`);
 }
 
-async function push() {
+async function gitPush() {
     return await exec('git push origin master');
 }
 
-export async function deploy() {
-    await add();
-    await commit();
-    await push();
+export async function commit(version?: string) {
+    await gitAdd();
+    if (version) { await gitTag(version); }
+    await gitCommit();
+    await gitPush();
     console.log('Pushed files to master');
 }

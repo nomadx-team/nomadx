@@ -10,7 +10,7 @@
 
 ### For Developers:
 
-The table component automatically creates rich HTML tables from your dataset. The flexible `<nomadx-data>` component allows you to generate tables through simple markup or bind data from Javascript, supporting CSV or TSV format, Markdown, JSON Arrays, and 2D Arrays.
+The `<nomadx-table>` component automatically creates rich HTML tables from your dataset. The flexible `<nomadx-table-data>` component allows you to generate tables through simple markup or bind data from Javascript, supporting CSV or TSV format, Markdown, JSON Arrays, and 2D Arrays.
 
 Here's a minimal example using CSV format in your markup:
 ```html 
