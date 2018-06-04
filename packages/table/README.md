@@ -187,6 +187,7 @@ nomadx-table .column-my-awesome-column {
 
 ## Styling
 `<nomadx-table>` offers a number of CSS variables to modify the default styling of the table.
+
 | Variable   	                                | Default Value       |
 |-------------------------------------------- |-------------------- |
 | --row-background-color                      | #fff;               | 
