@@ -10,7 +10,7 @@
   ],
   "browser": "dist/nomadx-table.js",
   "scripts": {
-    "works": "nomadx",
+    "deploy": "nomadx deploy",
     "build": "stencil build",
     "dev": "sd concurrent \"stencil build --dev --watch\" \"stencil-dev-server\" ",
     "serve": "stencil-dev-server",

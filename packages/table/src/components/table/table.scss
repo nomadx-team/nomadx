@@ -39,6 +39,9 @@ nomadx-table {
       tr {
         background-color: var(--row-background-color);
       }
+      th {
+        font-weight: bold;
+      }
     }
 
 
@@ -91,7 +94,7 @@ nomadx-table {
     th {
       font-weight: bold;
       color: rgba(0,0,0,0.87);
-      text-align: left;
+      text-align: center;
       height: var(--thead-height);
 
 
