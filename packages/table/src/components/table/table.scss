@@ -2,8 +2,8 @@ nomadx-table {
   --row-background-color: #fff;
   --stripe-background-color:#fafafa;
 
-  --row-has-focused-cell--background-color: #e1f5fe;
-  --stripe-has-focused-cell--background-color: var(--row-has-focused-cell--background-color);
+  --focused-row-background-color: #e1f5fe;
+  --focused-stripe-background-color: var(--focused-row-background-color);
 
   --table-border: 1px solid #dfe2e5;
   --cell-padding: 12px;
@@ -17,13 +17,14 @@ nomadx-table {
 
   display: block;
   width: 100%;
+  max-width: 100vw;
+  overflow-x: scroll;
 
   table {
     border-collapse: collapse;
     font-family: inherit;
     border: var(--table-border);
     width: 100%;
-
 
     & * {
       box-sizing: border-box;
@@ -47,7 +48,7 @@ nomadx-table {
         border-bottom: 1px solid rgba(0,0,0,0.06);
 
         &.has-focused-cell {
-          background-color: var(--row-has-focused-cell--background-color);
+          background-color: var(--focused-row-background-color);
         }
       }
     }
@@ -142,7 +143,7 @@ nomadx-table {
       background-color: var(--stripe-background-color);
 
       &.has-focused-cell {
-        background-color: var(--stripe-has-focused-cell--background-color);
+        background-color: var(--focused-stripe-background-color);
 
       }
 

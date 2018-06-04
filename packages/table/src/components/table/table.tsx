@@ -1,11 +1,12 @@
 import { Component, Element, Prop, State, Listen } from '@stencil/core';
-import { getPropEnabled, getPropScope } from '@nomadx/core';
+import { getPropEnabled, getPropScope } from '@nomadx/utils';
 import { Sort } from './icons';
 import { ParsedData } from '../../models/data';
 import { DIRECTION } from '../../models/direction';
 import { RenderErrorNoChild } from '../../utils/errors';
 import prettyprint from '../../utils/prettyprint';
 import naturalCompare from 'natural-compare';
+import kebab from 'dashify';
 
 @Component({
   tag: 'nomadx-table',
@@ -245,13 +246,16 @@ export class Table {
   }
 
   private getColumnName(colIndex) {
+    let className = '';
     if (this.data.meta.is2DArray) {
-      const name = this.data.data[0][colIndex];
-      return `col-${name}`.toLowerCase();
+      const name = kebab(this.data.data[0][colIndex].toLowerCase());
+      className = `column-${name}`;
     } else if (this.data.meta.isHTML) {
-      const name = this.data.data[0][colIndex].text;
-      return `col-${name}`.toLowerCase();
+      const name = kebab(this.data.data[0][colIndex].text.toLowerCase());
+      className = `column-${name}`;
     }
+    console.log(kebab);
+    return className;
   }
 
   /** Get coordinates of the next cell in a given direction */
@@ -347,6 +351,7 @@ export class Table {
           rows.map((row, rowIndex) => {
             rowIndex += this.numHeaderRows;
             const classes = {
+              'row': true,
               'has-focused-cell': rowIndex === this.focusedCell.row
             }
             return (
@@ -366,6 +371,7 @@ export class Table {
     const sort = sortable ? this.isSortedColumn(colIndex) ? this.sort.mode : 'none' : null;
     const classes = {
       'cell': true,
+      'column': true,
       [columnName]: true,
       'sortable': sortable,
       'is-focused': this.isFocusedCell(rowIndex, colIndex),
