@@ -7,7 +7,9 @@
     "nomadx": "bin/nomadx"
   },
   "scripts": {
-    "build": "rm -Rf dist && tsc -p ."
+    "build": "rm -Rf dist && tsc -p .",
+    "commit": "./bin/nomadx commit",
+    "publish": "./bin/nomadx publish"
   },
   "author": "Nate Moore <nate@natemoo.re> (http://projects.natemoo.re/)",
   "license": "ISC",

@@ -1,5 +1,6 @@
 import * as exec from 'await-exec';
 import * as inquirer from 'inquirer';
+import chalk from 'chalk';
 
 async function gitAdd() {
     return await exec('git add .');
@@ -28,5 +29,5 @@ export async function commit(version?: string) {
     if (version) { await gitTag(version); }
     await gitCommit();
     await gitPush();
-    console.log('Pushed files to master');
+    console.log(`${chalk.green('✓')} Pushed files to ${chalk.green('origin/master')}`);
 }
