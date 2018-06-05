@@ -1,6 +1,6 @@
 {
   "name": "@nomadx/scripts",
-  "version": "0.1.10-0",
+  "version": "0.3.0-0",
   "description": "Shared build scripts for Nomadx components",
   "main": "dist/index.js",
   "bin": {

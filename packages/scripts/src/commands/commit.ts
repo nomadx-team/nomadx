@@ -6,7 +6,8 @@ async function gitAdd() {
     return await exec('git add .');
 }
 
-async function gitTag(version?: string) {
+async function gitTag(version: string) {
+    version = version.trim();
     return await exec(`git tag -a "${version}" -m "Version ${version}"`);
 }
 
