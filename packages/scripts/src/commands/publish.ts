@@ -23,7 +23,7 @@ async function version(bump) {
     checkVersion(bump);
     const { stdout: newVersion } = await exec(`npm version ${bump}`);
     console.log(`${chalk.green('✓')} Package version updated to ${chalk.cyan(newVersion)}`);
-    return;
+    return newVersion;
 }
 
 async function release() {
@@ -36,7 +36,9 @@ async function release() {
 }
 
 export async function publish(bump) {
-    await version(bump);
-    await commit(bump);
-    release();
+    const newVersion = await version(bump);
+    if (newVersion) {
+        await commit(newVersion);
+        release();
+    }
 }

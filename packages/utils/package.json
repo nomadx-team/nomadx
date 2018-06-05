@@ -1,6 +1,6 @@
 {
   "name": "@nomadx/utils",
-  "version": "0.1.0",
+  "version": "0.1.11-0",
   "description": "Shared utils for Nomadx elements",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -8,6 +8,8 @@
     "dist/"
   ],
   "scripts": {
+    "commit": "nomadx commit",
+    "publish": "nomadx publish",
     "clean": "rm -rf ./dist",
     "prebuild": "npm run clean",
     "build": "tsc",
@@ -19,6 +21,7 @@
   "author": "Nate Moore <nate@natemoo.re> (http://projects.natemoo.re/)",
   "license": "ISC",
   "devDependencies": {
+    "@nomadx/scripts": "^0.1.10-0",
     "@types/jest": "^22.2.3",
     "typescript": "^2.8.3"
   },
@@ -34,8 +37,5 @@
       "json",
       "jsx"
     ]
-  },
-  "dependencies": {
-    "@nomadx/scripts": "^0.1.0"
   }
 }

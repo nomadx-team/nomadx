@@ -7,7 +7,7 @@ async function gitAdd() {
 }
 
 async function gitTag(version?: string) {
-    return await exec(`git tag -a "v${version}" -m "Version ${version}"`);
+    return await exec(`git tag -a "${version}" -m "Version ${version}"`);
 }
 
 async function gitCommit() {
